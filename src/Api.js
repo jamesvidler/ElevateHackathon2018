@@ -6,11 +6,7 @@ const req = require('request-promise-native'); // use Request library + promises
 const teamToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJDQlAiLCJ0ZWFtX2lkIjoiMzhiYzJhMTItODU2ZC0zZTkwLWIzYzgtMDIyM2YyMTAwYzNlIiwiZXhwIjo5MjIzMzcyMDM2ODU0Nzc1LCJhcHBfaWQiOiIxNTI4Y2YwMy1mZjFlLTQ2NDctYTc2ZS0zOTBiOGIzMmRjYjgifQ.frju2AIe3H7orMWYpIhtAws0bI4nO1Hs5k11wx5TZcE";
 const initialCustomerId = "1528cf03-ff1e-4647-a76e-390b8b32dcb8_c418b5e6-ef7a-4774-88bc-762f2e9adc53";
 
-var allTransactions = [];
-var numOfNewTransactions = 0;
-var categoryTags = [];
-var reoccuringTags = [];
-var reoccuringTransactions = [];
+
 
 function options(method, uri, body = null) {
   return {
@@ -26,44 +22,17 @@ function options(method, uri, body = null) {
   Initializes the allTransactions array with all the transactions that the customer has made
   This function should be called before any other calls are made
 */
-function initTransactionsArray() {
+function getTransactions(callback) {
   (async () => {
     await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
     .then((resp) => {
       const transactions = resp.result;
-      const length = resp.result.length;
-      for( var i = 0; i < length; i++) {
-        allTransactions.push(transactions[i]);
-        console.log("Test");
-      } 
-      return 0; // test
+      callback(transactions);
     }, handleError)
   })();
 }
 
-/*
-  Checks if there are any new transactions
-  If there are new tractions 
-  DOES NOT RETURN THE NEW TRANSACTIONS ITSELF
-  TO GET THE NEW TRANSACTIONS CALL getNewTransactions()
-*/
-function isNewTransaction() {
-  (async () => {
-    await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
-    .then((resp) => {
-      const newArraySize = resp.result.length;
-      const currentArraySize = allTransactions.length;
-      if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
-        numOfNewTransactions = newArraySize - currentArraySize;
-        for(var i = newArraySize; i > currentArraySize; i--) {
-          allTransactions.push(resp.result[i]); 
-        }
-        return true;
-      }
-      return false;
-    }, handleError)
-  })();
-}
+
 
 /*
   Fetches any new transactions 
@@ -71,26 +40,33 @@ function isNewTransaction() {
   If there are no new transactions, it just returns an empty array
   Make sure to do null checks when calling this function
 */
-function getNewTransactions() {
-  var newTransactions = [];
-  var index = allTransactions.length;
-  var counter = 0;
-  while(counter < numOfNewTransactions) {
-    newTransactions.push(allTransactions[index]);
-    index--;
-  }
-  return newTransactions;
+function getNewTransactions(transactions, callback) {
+
+  (async () => {
+    await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
+    .then((resp) => {
+      const newArraySize = resp.result.length;
+      const currentArraySize = transactions.length;
+      if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
+        var numOfNewTransactions = newArraySize - currentArraySize;
+        var newTransactions = [];
+        for(var i = newArraySize; i > currentArraySize; i--) {
+          newTransactions.push(resp.result[i]); 
+        }
+        callback(newTransactions);
+      }
+    }, handleError)
+  })();
 }
 
 /*
   Gets the customers income
 */ 
-function getCustomerIncome() {
+function getCustomer(callback) {
   (async () => {
     await req(options('GET', 'customers/' + initialCustomerId))
     .then((resp) => {
-      const income = resp.result.totalIncome;
-      console.log(income);
+      callback(resp.result);
     }, handleError)
   })();  
 }
@@ -98,10 +74,13 @@ function getCustomerIncome() {
 /*
   This function gets all the unique category tags for all the transactions
 */
-function getCategoryTags() {
-  for(var i = 0; i < allTransactions.length; i++) {
-    if(!categoryTags.includes(allTransactions[i].categoryTags[0])) {
-      categoryTags.push(allTransactions[i].categoryTags[0]);
+function getCategoryTags(transactions) {
+  var categoryTags = [];
+  for(var i = 0; i < transactions.length; i++) {
+    if(transactions[i].categoryTags != null && transactions[i].categoryTags.length > 0 ){
+      if(!categoryTags.includes(transactions[i].categoryTags[0])) {
+        categoryTags.push(transactions[i].categoryTags[0]);
+      }
     }
   }
   return categoryTags;
@@ -111,7 +90,8 @@ function getCategoryTags() {
   This function gets all the REOCCURING category tags
   IT DOES NOT RETURN THE REOCCURING TRANSACTIONS BUT INSTEAD JUST THE TAGS
 */
-function getReoccuringCategoryTags() {
+function getReoccuringCategoryTags(categoryTags) {
+  var reoccuringTags = [];
   for(var i = 0; i < categoryTags.length; i++) {
     if(
         categoryTags[i] == "Education" ||
@@ -123,21 +103,26 @@ function getReoccuringCategoryTags() {
       reoccuringTags.push(categoryTags[i]);
     }
   }
+  return reoccuringTags;
 }
 
 /*
   This function returns all the reoccuring transactions in json form
   NEEDS TO BE CALLED AFTER getReoccuringCategoryTags()
 */
-function getReoccuringTransactions() {
+function getReoccuringTransactions(transactions) {
+  var categoryTags = getCategoryTags(transactions);
+  var reoccuringTransactions= [];
+  var reoccuringTags = getReoccuringCategoryTags(categoryTags)
   for(var i = 0; i < reoccuringTags.length; i++) {
-    for(var j = 0; j < allTransactions.length; j++) {
-      if(allTransactions[j].categoryTags[0] == reoccuringTags[i]) {
-        reoccuringTransactions.push(allTransactions[j]);
+    for(var j = 0; j < transactions.length; j++) {
+      if(transactions[j].categoryTags[0] == reoccuringTags[i]) {
+        reoccuringTransactions.push(transactions[j]);
         break;
       }
     }
   }
+  return reoccuringTransactions;
 }
 
 /*
@@ -158,6 +143,6 @@ function handleError(err) {
   process.exit(1);
 }
 
-var Api = {getReoccuringTransactions, getReoccuringCategoryTags,getCategoryTags,
-  getCustomerIncome, getNewTransactions, isNewTransaction, initTransactionsArray}
+var Api = {getReoccuringTransactions,
+  getCustomer, getNewTransactions, getTransactions}
 export default Api;
