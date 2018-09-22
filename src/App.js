@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import { Switch, Route } from 'react-router-dom'
@@ -73,7 +72,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Personal Financial Heartbeat</h1>
           <h3>{this.state.test}</h3>
         </header>
