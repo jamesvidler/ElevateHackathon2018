@@ -10,15 +10,15 @@ class DailyMetric extends Component {
         //this.changeStateTestVal = this.changeStateTestVal.bind(this);
         this.increaseBalance = this.increaseBalance.bind(this);
         this.decreaseBalance = this.decreaseBalance.bind(this);
-        this.state = {
-            oldBalance: 0.00,
-            balance: 0.00,
-            lastIncrease: "$ 0.00",
-            lastDecrease: "$ 0.00",
-            showIncrease: false,
-            showDecrease: false,
-            transactions: []
-        };          
+        // this.state = {
+        //     oldBalance: 0.00,
+        //     balance: 0.00,
+        //     lastIncrease: "$ 0.00",
+        //     lastDecrease: "$ 0.00",
+        //     showIncrease: false,
+        //     showDecrease: false,
+        //     transactions: []
+        // };          
 
         this.hideTransactionsAfterTimeout = false;
 
@@ -29,72 +29,42 @@ class DailyMetric extends Component {
           })
     }
     componentDidMount = function() {
-        var self = this;
-        Api.getTransactions(function(transactions) {
-            self.state.transactions = transactions;
-            var reoccuringTransactions = Api.getReoccuringTransactions(transactions);
-            self.state.transactions = transactions.concat(reoccuringTransactions);
-        });
+        
     }
     updateBalance = function(newBalance) {
-        var diff = newBalance - this.state.balance;
-        this.setState({
-            oldBalance: this.state.balance,
+        var diff = newBalance - this.props.state.data.balance;
+        var data = {
+            oldBalance: this.props.state.data.balance,
             balance: newBalance,
-            lastIncrease: (diff > 0 ? this.newIncreaseItem(diff) : this.state.lastIncrease),
-            lastDecrease: (diff < 0 ? this.newDecreaseItem(diff) : this.state.lastDecrease)
-        })
-    }
-    newIncreaseItem = function(diff) {
-        var self = this;
-        self.setState({
-            showIncrease: true
-        })
-        if(self.hideTransactionsAfterTimeout) {
-            setTimeout(function() {
-                self.setState({
-                    showIncrease: false
-                })
-            }, 3000)
+            lastIncrease: (diff > 0 ? this.formatter.format(diff) : this.props.state.data.lastIncrease),
+            lastDecrease: (diff < 0 ? this.formatter.format(diff) : this.props.state.data.lastDecrease)
         }
-        return this.formatter.format(diff);
-    }
-    newDecreaseItem = function(diff) {
-        var self = this;
-        self.setState({
-            showDecrease: true
-        })
-        if(self.hideTransactionsAfterTimeout) {
-            setTimeout(function() {
-                self.setState({
-                    showDecrease: false
-                })
-            }, 3000)
-        }
-        
-        return this.formatter.format(diff);
+        this.props.updateAppState({
+            data: data
+        });
     }
     increaseBalance = function() {
-        var balance = this.state.balance;
+        var balance = this.props.state.data.balance;
         var newBalance = balance + 0.25;
         this.updateBalance(newBalance);       
     }
     decreaseBalance = function() {
-        var balance = this.state.balance;
+        var balance = this.props.state.data.balance;
         var newBalance = balance - 5.75;
         this.updateBalance(newBalance);
     }
+    
     render() {
         return (
-
+            
             <div className="DailyMetric">
-                {this.state.showIncrease &&
-                <h4 className="Green">+{this.state.lastIncrease}</h4>
+                {this.props.state.data.showIncrease &&
+                <h4 className="Green">+{this.props.state.data.lastIncrease}</h4>
                 }
                 <CountUp
-                    start={this.state.oldBalance}
-                    end={this.state.balance}
-                    duration={4}
+                    start={this.props.state.data.oldBalance}
+                    end={this.props.state.data.balance}
+                    duration={2.75}
                     separator=","
                     decimals={2}
                     decimal="."
@@ -107,8 +77,8 @@ class DailyMetric extends Component {
                         <h2 className="DaySave" ref={countUpRef}/>
                     )}
                 </CountUp>
-                {this.state.showDecrease &&
-                    <h4 className="Red">{this.state.lastDecrease}</h4>
+                {this.props.state.data.showDecrease &&
+                    <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
                 }
                 <h4 className="saved">SAVED</h4>
                 {/* <div className="groupC">
