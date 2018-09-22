@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { Switch, Route } from 'react-router-dom'
+import DailyMetric from './DailyMetric'
+import Schedule from './Schedule'
+import { Link } from 'react-router-dom'
+
 class App extends Component {
   render() {
     return (
@@ -10,9 +15,14 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Link to="/">Daily Metric</Link>
+        <Link to="/schedule">Work Schedule</Link>
+        <main>
+        <Switch>
+          <Route exact path='/' component={DailyMetric}/>
+          <Route exact path='/schedule' component={Schedule}/>
+        </Switch>
+        </main>
       </div>
     );
   }
