@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 
 import { Switch, Route } from 'react-router-dom'
-import DailyMetric from './DailyMetric'
+//import DailyMetric from './DailyMetric'
+import DailyMetricCopy from './DailyMetricCopy'
 import Schedule from './Schedule'
 import { Link } from 'react-router-dom'
 
@@ -82,7 +83,7 @@ class App extends Component {
         <Link to="/schedule">Work Schedule</Link>
         <main>
         <Switch>
-          <Route exact path='/' render={(props) => <DailyMetric app={this.state} onStateChange={this.updateState} />}/>
+          <Route exact path='/' render={(props) => <DailyMetricCopy app={this.state} onStateChange={this.updateState} />}/>
           <Route exact path='/schedule' render={(props) => <Schedule app={this.state} />}/>
         </Switch>
         </main>
