@@ -55,3 +55,9 @@ function handleError(err) {
   console.dir(outErr);
   process.exit(1);
 }
+
+var Api = {
+  getCustomerIncome
+}
+
+export default Api;
