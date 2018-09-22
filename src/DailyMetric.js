@@ -13,7 +13,8 @@ class DailyMetric extends Component {
     }
     changeStateTestVal = function() {
         this.props.onStateChange({
-            test: 'a test value'
+            test: 'a test value',
+            workSchedule: null
         })
     }
     render() {

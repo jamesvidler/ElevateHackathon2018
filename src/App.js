@@ -60,10 +60,7 @@ var defaultValues = {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      customerID: null,
-      test: null
-    };
+    this.state = {};
     this.updateState = this.updateState.bind(this);
   }
   componentDidMount = function() {
@@ -89,6 +86,10 @@ class App extends Component {
           <Route exact path='/schedule' render={(props) => <Schedule app={this.state} />}/>
         </Switch>
         </main>
+
+        <pre>
+          {JSON.stringify(this.state.workSchedule)}
+        </pre>
       </div>
     );
   }
