@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './DailyMetric.css';
-import Api from './Api';
+import Api  from './Api';
 import CountUp from 'react-countup'
 
 class DailyMetric extends Component {
@@ -16,7 +16,8 @@ class DailyMetric extends Component {
             lastIncrease: "$ 0.00",
             lastDecrease: "$ 0.00",
             showIncrease: false,
-            showDecrease: false
+            showDecrease: false,
+            transactions: []
         };          
 
         this.hideTransactionsAfterTimeout = false;
@@ -28,7 +29,14 @@ class DailyMetric extends Component {
           })
     }
     componentDidMount = function() {
-
+        var self = this;
+        Api.getTransactions(function(transactions) {
+            self.state.transactions = transactions;
+            var reoccuringTransactions = Api.getReoccuringTransactions(transactions);
+            self.state.transactions = transactions.concat(reoccuringTransactions);
+            debugger;
+        });
+        //Api.getReoccuringTransactions();
     }
     updateBalance = function(newBalance) {
         var diff = newBalance - this.state.balance;
