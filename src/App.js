@@ -10,6 +10,11 @@ import { Link } from 'react-router-dom'
 
 class App extends Component {
   render() {
+
+    const app = {
+      customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9'
+    };
+
     return (
       <div className="App">
         <header className="App-header">
@@ -21,8 +26,8 @@ class App extends Component {
         <Link to="/schedule">Work Schedule</Link>
         <main>
         <Switch>
-          <Route exact path='/' component={DailyMetric}/>
-          <Route exact path='/schedule' component={Schedule}/>
+          <Route exact path='/' render={(props) => <DailyMetric app={app} />}/>
+          <Route exact path='/schedule' render={(props) => <Schedule app={app} />}/>
         </Switch>
         </main>
       </div>

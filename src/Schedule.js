@@ -6,6 +6,7 @@ class Schedule extends Component {
     return (
       <div className="Schedule">
         <h1>This is the work schedule component</h1>
+        <p>The Customer ID is {this.props.app.customerID}</p>
       </div>
     );
   }
