@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import DailyMetric from './DailyMetric'
 import SwipeableRoutes from "react-swipeable-routes";
 import AnotherView from './AnotherView'
+import Api from './Api'
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
@@ -54,16 +55,28 @@ var defaultValues = {
           startTime: null,
           endTime : null
       }     
-   ]
+   ],
+  data: {
+    oldBalance: 0.00,
+    balance: 0.00,
+    lastIncrease: "$ 0.00",
+    lastDecrease: "$ 0.00",
+    showIncrease: false,
+    showDecrease: false,
+    transactions: [],
+    customer: null
+  }
 };
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = defaultValues;
     this.updateState = this.updateState.bind(this);
   }
   componentDidMount = function() {
+    
+
     this.setState(defaultValues)
   }
   updateState = function(stateData) {
@@ -78,8 +91,8 @@ class App extends Component {
 
         <main className="MainBox">
           <SwipeableRoutes>
-            <Route exact path='/' render={(props) => <DailyMetric app={this.state} onStateChange={this.updateState} />}/>
-            <Route exact path='/anotherview' render={(props) => <AnotherView app={this.state} onStateChange={this.updateState} />}/>
+            <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
+            <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
           </SwipeableRoutes>
         </main>
       </div>
