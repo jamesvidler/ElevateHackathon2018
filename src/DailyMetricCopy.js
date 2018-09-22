@@ -19,6 +19,8 @@ class DailyMetricCopy extends Component {
             showDecrease: false
         };          
 
+        this.hideTransactionsAfterTimeout = false;
+
         this.formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
@@ -42,11 +44,13 @@ class DailyMetricCopy extends Component {
         self.setState({
             showIncrease: true
         })
-        setTimeout(function() {
-            self.setState({
-                showIncrease: false
-            })
-        }, 3000)
+        if(self.hideTransactionsAfterTimeout) {
+            setTimeout(function() {
+                self.setState({
+                    showIncrease: false
+                })
+            }, 3000)
+        }
         return this.formatter.format(diff);
     }
     newDecreaseItem = function(diff) {
@@ -54,11 +58,14 @@ class DailyMetricCopy extends Component {
         self.setState({
             showDecrease: true
         })
-        setTimeout(function() {
-            self.setState({
-                showDecrease: false
-            })
-        }, 3000)
+        if(self.hideTransactionsAfterTimeout) {
+            setTimeout(function() {
+                self.setState({
+                    showDecrease: false
+                })
+            }, 3000)
+        }
+        
         return this.formatter.format(diff);
     }
     increaseBalance = function() {
