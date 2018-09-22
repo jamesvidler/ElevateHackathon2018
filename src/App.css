@@ -1,24 +1,80 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+body {
+  background: black;
   color: white;
 }
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900%7COpen+Sans:300,400,600,700);
 
-.App-title {
-  font-size: 1.5em;
+
+h1 {
+  font-family: 'Lato', sans-serif; 
+  font-weight: 900;
+  font-size: 4em;
+}
+h2{
+  font-family: 'Lato', sans-serif; 
+  font-weight: 400;
+  font-size: 4.5em;
+  margin: 0;
+}
+h3 {
+  font-family: 'Open Sans', sans-serif; 
+  font-weight: 600;
+  text-align: center;
+  font-size: 2em;
+  margin: 0;
+}
+h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 2em;
+  text-align: center;
+  margin: 0;
+}
+.Green {
+  color: #4CEB63;
+  margin-top: 25%;
+}
+.Red {
+  color: #FF233E;
+}
+p {
+  font-family: 'Open Sans', sans-serif; 
+  font-size: 24px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.DaySave {
+  text-align: center;
+}
+.MainBox {
+  border: 2px solid white;
+  width:312px;
+  height:390px;
+  margin:0 auto;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: white;
+  opacity: 0.3;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.activeCircle {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #35B234;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.groupC {
 }
