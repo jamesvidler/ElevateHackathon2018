@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import { Switch, Route } from 'react-router-dom'
@@ -73,24 +72,38 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+        {/* <header className="App-header">
           <h1 className="App-title">Personal Financial Heartbeat</h1>
           <h3>{this.state.test}</h3>
-        </header>
-        
-        <Link to="/">Daily Metric</Link>
-        <Link to="/schedule">Work Schedule</Link>
+        </header> */}
+
+
+        <div className="MainBox">
+          <h4 className="Green">+$1.35</h4>
+          <h2 className="DaySave">$56.13</h2>
+          <h4 className="Red">-$3.25</h4>
+        <h4>SAVED</h4>
+        {/* <div className="groupC">
+          <div className="circle"></div>
+          <div className="activeCircle"></div>
+        </div> */}
+        </div>
+
+
+        {/* <Link to="/">Daily Metric</Link>
+        <Link to="/schedule">Work Schedule</Link> */}
         <main>
-        <Switch>
-          <Route exact path='/' render={(props) => <DailyMetricCopy app={this.state} onStateChange={this.updateState} />}/>
+
+        {/* <Switch>
+          <Route exact path='/' render={(props) => <DailyMetric app={this.state} onStateChange={this.updateState} />}/>
+>>>>>>> 15cac1115bbfab6446de84c98990b286a19b949f
           <Route exact path='/schedule' render={(props) => <Schedule app={this.state} />}/>
-        </Switch>
+        </Switch> */}
         </main>
 
-        <pre>
+        {/* <pre> 
           {JSON.stringify(this.state.workSchedule)}
-        </pre>
+        </pre> */}
       </div>
     );
   }
