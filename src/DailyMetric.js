@@ -70,7 +70,7 @@ class DailyMetric extends Component {
     }
     increaseBalance = function() {
         var balance = this.state.balance;
-        var newBalance = balance + 300.25;
+        var newBalance = balance + 0.25;
         this.updateBalance(newBalance);       
     }
     decreaseBalance = function() {
@@ -81,14 +81,14 @@ class DailyMetric extends Component {
     render() {
         return (
 
-            <div className="MainBox">
+            <div className="DailyMetric">
                 {this.state.showIncrease &&
                 <h4 className="Green">+{this.state.lastIncrease}</h4>
                 }
                 <CountUp
                     start={this.state.oldBalance}
                     end={this.state.balance}
-                    duration={2.75}
+                    duration={4}
                     separator=","
                     decimals={2}
                     decimal="."
@@ -104,7 +104,7 @@ class DailyMetric extends Component {
                 {this.state.showDecrease &&
                     <h4 className="Red">{this.state.lastDecrease}</h4>
                 }
-                <h4>SAVED</h4>
+                <h4 className="saved">SAVED</h4>
                 {/* <div className="groupC">
                 <div className="circle"></div>
                 <div className="activeCircle"></div>
