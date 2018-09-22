@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 
 import { Switch, Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import DailyMetric from './DailyMetric'
+import SwipeableRoutes from "react-swipeable-routes";
+import AnotherView from './AnotherView'
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
@@ -70,10 +73,14 @@ class App extends Component {
     return (
       <div className="App">
         
-        <main>
-          <Switch>
+        <Link to="/">Home</Link>
+        <Link to="/anotherview">Another View</Link>
+
+        <main className="MainBox">
+          <SwipeableRoutes>
             <Route exact path='/' render={(props) => <DailyMetric app={this.state} onStateChange={this.updateState} />}/>
-          </Switch>
+            <Route exact path='/anotherview' render={(props) => <AnotherView app={this.state} onStateChange={this.updateState} />}/>
+          </SwipeableRoutes>
         </main>
       </div>
     );

@@ -81,7 +81,7 @@ class DailyMetric extends Component {
     render() {
         return (
 
-            <div className="MainBox">
+            <div className="DailyMetric">
                 {this.state.showIncrease &&
                 <h4 className="Green">+{this.state.lastIncrease}</h4>
                 }
