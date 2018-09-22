@@ -34,9 +34,7 @@ class DailyMetric extends Component {
             self.state.transactions = transactions;
             var reoccuringTransactions = Api.getReoccuringTransactions(transactions);
             self.state.transactions = transactions.concat(reoccuringTransactions);
-            debugger;
         });
-        //Api.getReoccuringTransactions();
     }
     updateBalance = function(newBalance) {
         var diff = newBalance - this.state.balance;
