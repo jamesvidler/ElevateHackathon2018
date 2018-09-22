@@ -32,24 +32,59 @@ h4 {
 }
 .Green {
   color: #4CEB63;
-  margin-top: 25%;
+  top: 28%;
+  text-align: center;
+  position: absolute;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 312px;
 }
 .Red {
   color: #FF233E;
+  top: 55%;
+  text-align: center;
+  position: absolute;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 312px;
 }
 p {
   font-family: 'Open Sans', sans-serif; 
   font-size: 24px;
 }
-
-.DaySave {
+.saved {
+  top: 65%;
   text-align: center;
+  position: absolute;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 312px;
+}
+.DaySave {
+  top: 35%;
+  text-align: center;
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 312px;
 }
 .MainBox {
   border: 2px solid white;
   width:312px;
   height:390px;
   margin:0 auto;
+  position: relative;
 }
 
 .circle {
