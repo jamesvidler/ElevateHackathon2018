@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import P from './P';
 
 import { Switch, Route } from 'react-router-dom'
 import DailyMetric from './DailyMetric'
@@ -18,8 +19,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Personal Financial Heartbeat</h1>
         </header>
+
         <Link to="/">Daily Metric</Link>
         <Link to="/schedule">Work Schedule</Link>
         <main>
