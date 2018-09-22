@@ -6,6 +6,7 @@ class DailyMetric extends Component {
     return (
       <div className="DailyMetric">
         <h1>This is the daily metric component</h1>
+        <p>Customer ID is {this.props.app.customerID}</p>
       </div>
     );
   }
