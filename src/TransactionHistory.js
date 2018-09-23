@@ -14,7 +14,7 @@ class TransactionHistory extends Component {
         const transactionItems = this.props.state.data.transactions.map((t) =>
             <div className="trans">
                <p className="transText">
-                <i class="fas fa-utensils"></i> 
+               <i class="fas fa-money-check-alt"></i>
                     <span className="amountText">
                     {numeral(t.currencyAmount).format('$ 0.00 a')} 
                     </span>
@@ -24,7 +24,7 @@ class TransactionHistory extends Component {
         return (
 
             <div className="TransactionHistory">
-            <h3>  Purchase Details</h3>
+            <h3>Purchase Details</h3>
                 <ul>
                     {transactionItems}
                 </ul>
