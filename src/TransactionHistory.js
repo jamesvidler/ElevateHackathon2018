@@ -11,7 +11,7 @@ class TransactionHistory extends Component {
     }
     
     render() {  
-        const transactionItems = this.props.state.data.transactions.reverse().map((t) =>
+        const transactionItems = this.props.state.data.transactions.map((t) =>
             <div className="trans">
                <p className="transText">
                
