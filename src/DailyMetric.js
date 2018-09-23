@@ -54,7 +54,8 @@ class DailyMetric extends Component {
     }
     
     render() {
-        const percentage = this.props.state.data.balance / this.props.state.data.goal;
+        const percentage = (this.props.state.data.balance / this.props.state.data.goal) * 100;
+        console.log(percentage);
         console.log('metric rendered');
         const hourlyWage = 0.00;
         if(this.props.state.data.customer != null) {
@@ -71,13 +72,13 @@ class DailyMetric extends Component {
             <div className="DailyMetric">
                 <div className="Bar">
                 <CircularProgressbar
-                percentage={percentage}
-                textforPercentage={null} 
-                strokeWidth={10}
-                styles={{
-                    path: { stroke: `rgba(53, 178, 52, 100)` },
-                    trail: { stroke: '#590913'}
-                  }}
+                    percentage={percentage}
+                    textforPercentage={null} 
+                    strokeWidth={10}
+                    styles={{
+                        path: { stroke: `rgba(53, 178, 52, 100)` },
+                        trail: { stroke: '#590913'}
+                    }}
                 />
                 </div>
                 {this.props.state.data.balance > 0 &&
@@ -85,7 +86,7 @@ class DailyMetric extends Component {
                 }
 
                 {this.props.state.data.balance <= 0 &&
-                    <h4 className="Red">Losing</h4>
+                    <h4 className="Red">Warning</h4>
                 }
                 
                 <CountUp

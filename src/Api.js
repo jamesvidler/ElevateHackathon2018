@@ -55,7 +55,7 @@ function getNewTransactions(transactions, date, callback) {
       var numOfNewTransactions = newArraySize - currentArraySize;
 
       for(var i = newArraySize; i > currentArraySize; i--) {
-        newTransactions.push(resp.result[i-1]); 
+        newTransactions.push(resp[i-1]); 
       }
       newTransactions.reverse();
 
@@ -147,16 +147,19 @@ function getTransactionsForDay(date, callback) {
         resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
       }
       const transactions = resp.result;
-      for(var i = 0; i < transactions.length; i++) {
-        if(transactions[i].originationDateTime.indexOf(date)!=-1) {
-          transactionForTheDay.push(transactions[i]);
-        }
-      }
+
       var reoccuringTransactions = getReoccuringTransactions(transactions);
       for(var i = 0; i < reoccuringTransactions.length; i++) {
         reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
         transactionForTheDay.push(reoccuringTransactions[i]);
       }
+
+      for(var i = 0; i < transactions.length; i++) {
+        if(transactions[i].originationDateTime.indexOf(date)!=-1) {
+          transactionForTheDay.push(transactions[i]);
+        }
+      }
+      
       callback(transactionForTheDay); 
     }, handleError)
   })();
@@ -185,8 +188,7 @@ var Api = {
   getCustomer,
   getNewTransactions,
   getTransactions,
-  getTransactionsForDay,
-  compareSavings
+  getTransactionsForDay
 }
 
 export default Api;

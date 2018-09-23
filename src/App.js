@@ -9,12 +9,13 @@ import AnotherView from './AnotherView'
 import Api from './Api'
 import deepmerge from 'deepmerge'
 import TransactionHistory from './TransactionHistory'
+import moment from 'moment'
 
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
   test: 'some val',
-  date: '2018-09-22',
+  date: moment().format('YYYY-MM-DD'),
   workSchedule: 
     [
       {
@@ -98,7 +99,7 @@ class App extends Component {
             balance: balance
           }
         }); 
-        //self.pollForUpdates();  
+        self.pollForUpdates();  
       })
     })
   }
