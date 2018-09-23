@@ -19,6 +19,7 @@ class TransactionHistory extends Component {
         return (
 
             <div className="TransactionHistory">
+            <h3>  Purchase Details</h3>
                 <ul>
                     {transactionItems}
                 </ul>

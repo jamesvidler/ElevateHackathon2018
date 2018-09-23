@@ -58,7 +58,7 @@ class DailyMetric extends Component {
     }
     
     render() {
-        const percentage = 65;
+        const percentage = 70;
         return (
             <div className="DailyMetric">
                 <div className="Bar">
@@ -68,6 +68,7 @@ class DailyMetric extends Component {
                 strokeWidth={10}
                 styles={{
                     path: { stroke: `rgba(53, 178, 52, 100)` },
+                    trail: { stroke: '#590913'}
                   }}
                 />
                 </div>
