@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 import moment from 'moment'
 import tz from 'moment-timezone'
-=======
-
-import moment from 'moment'
-import 'moment-timezone'
-
->>>>>>> 062d05f8606d62147370a48a1576f1854ff94c99
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -46,6 +39,7 @@ function convertToEST(date) {
   return moment(date).tz('America/New_York').format();
 }
 
+
 /*
   Fetches any new transactions 
   If there are multiple transactions, it returns an array of transactions json objects
@@ -61,14 +55,10 @@ function getNewTransactions(transactions, date, callback) {
       var numOfNewTransactions = newArraySize - currentArraySize;
 
       for(var i = newArraySize; i > currentArraySize; i--) {
-<<<<<<< HEAD
-        newTransactions.push(resp.result[i]); 
-      }
-=======
         newTransactions.push(resp.result[i-1]); 
       }
 
->>>>>>> 062d05f8606d62147370a48a1576f1854ff94c99
+
     }
     callback(newTransactions);
   })
@@ -156,7 +146,6 @@ function getTransactionsForDay(date, callback) {
       for(var i in resp.result) {
         resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
       }
-
       const transactions = resp.result;
       for(var i = 0; i < transactions.length; i++) {
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
@@ -196,7 +185,8 @@ var Api = {
   getCustomer,
   getNewTransactions,
   getTransactions,
-  getTransactionsForDay
+  getTransactionsForDay,
+  compareSavings
 }
 
 export default Api;
