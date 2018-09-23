@@ -1,5 +1,5 @@
 import moment from 'moment'
-import 'moment-timezone'
+import tz from 'moment-timezone'
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -48,12 +48,11 @@ function convertToEST(date) {
 function getNewTransactions(transactions, date, callback) {
   getTransactionsForDay(date, function(resp) {
     var newTransactions = [];
-    const newArraySize = resp.length; 
-    const currentArraySize = transactions.length; 
-    
+    const newArraySize = resp.length;
+    const currentArraySize = transactions.length;
     if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
       for(var i = newArraySize; i > currentArraySize; i--) {
-        newTransactions.push(resp[i -1]); 
+        newTransactions.push(resp.result[i]); 
       }
     }
     callback(newTransactions);
