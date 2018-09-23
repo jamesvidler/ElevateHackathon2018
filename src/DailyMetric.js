@@ -54,7 +54,8 @@ class DailyMetric extends Component {
     }
     
     render() {
-        const percentage = this.props.state.data.balance / this.props.state.data.goal;
+        const percentage = (this.props.state.data.balance / this.props.state.data.goal) * 100;
+        console.log(percentage);
         console.log('metric rendered');
         const hourlyWage = 0.00;
         if(this.props.state.data.customer != null) {
