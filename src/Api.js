@@ -1,5 +1,3 @@
-// Run `npm init`, then `npm install request request-debug request-promise-native --save`
-"use strict";
 import moment from 'moment'
 import tz from 'moment-timezone'
 
@@ -50,16 +48,19 @@ function convertToEST(date) {
 */
 function getNewTransactions(transactions, date, callback) {
   getTransactionsForDay(date, function(resp) {
+    var newTransactions = [];
     const newArraySize = resp.length;
-      const currentArraySize = transactions.length;
-      if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
-        var numOfNewTransactions = newArraySize - currentArraySize;
-        var newTransactions = [];
-        for(var i = newArraySize; i > currentArraySize; i--) {
-          newTransactions.push(resp.result[i-1]); 
-        }
-        callback(newTransactions);
+    const currentArraySize = transactions.length;
+    if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
+      var numOfNewTransactions = newArraySize - currentArraySize;
+
+      for(var i = newArraySize; i > currentArraySize; i--) {
+        newTransactions.push(resp.result[i-1]); 
       }
+
+
+    }
+    callback(newTransactions);
   })
 }
 
@@ -141,46 +142,24 @@ function getTransactionsForDay(date, callback) {
     await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
     .then((resp) => {
       var transactionForTheDay = [];
-      const transactions = resp.result;
 
+      for(var i in resp.result) {
+        resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
+      }
+      const transactions = resp.result;
+      for(var i = 0; i < transactions.length; i++) {
+        if(transactions[i].originationDateTime.indexOf(date)!=-1) {
+          transactionForTheDay.push(transactions[i]);
+        }
+      }
       var reoccuringTransactions = getReoccuringTransactions(transactions);
       for(var i = 0; i < reoccuringTransactions.length; i++) {
         reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
         transactionForTheDay.push(reoccuringTransactions[i]);
       }
-      for(var i = 0; i < transactions.length; i++) {
-        if(transactions[i].originationDateTime.indexOf(date)!=-1) {
-          transactions[i].currencyAmount = transactions[i].currencyAmount.toFixed(2); 
-          transactionForTheDay.push(transactions[i]);
-        }
-      }
       callback(transactionForTheDay); 
     }, handleError)
   })();
-}
-/*
-  Tells you how much you saved compared to yesterday
-  Gives back a percentage
-*/
-function compareSavings(today, yesterday, callback) {
-  var yesterdaysTransactions;
-  var todaysTransactions;
-  var yesterdaysCost = 0;
-  var todaysCost = 0;
-  getTransactionsForDay(yesterday, function(res) {
-    yesterdaysTransactions = res;
-    getTransactionsForDay(today, function(resp) {
-      todaysTransactions = resp;
-      for(var i = 0; i < yesterdaysTransactions.length; i++) {
-        yesterdaysCost = yesterdaysCost + yesterdaysTransactions[i].currencyAmount;
-      }
-      for(var i = 0; i < todaysTransactions.length; i++) {
-        todaysCost = todaysCost + todaysTransactions[i].currencyAmount;
-      }
-      var percent = ((yesterday-today)/today)*100; 
-      callback(percent);
-    })
-  });
 }
 
 /*

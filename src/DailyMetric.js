@@ -1,27 +1,20 @@
 import React, { Component } from 'react';
 import './DailyMetric.css';
-import Api  from './Api';
 import CountUp from 'react-countup';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import numeral from 'numeral'
+import moment from 'moment'
+import _lodash from 'lodash'
 
 class DailyMetric extends Component {
     constructor(props) {
         super(props);
         
-        //this.changeStateTestVal = this.changeStateTestVal.bind(this);
         this.increaseBalance = this.increaseBalance.bind(this);
         this.decreaseBalance = this.decreaseBalance.bind(this);
-        // this.state = {
-        //     oldBalance: 0.00,
-        //     balance: 0.00,
-        //     lastIncrease: "$ 0.00",
-        //     lastDecrease: "$ 0.00",
-        //     showIncrease: false,
-        //     showDecrease: false,
-        //     transactions: []
-        // };          
+
+        this.state = {};          
 
         this.hideTransactionsAfterTimeout = false;
 
@@ -29,7 +22,7 @@ class DailyMetric extends Component {
             style: 'currency',
             currency: 'USD',
             minimumFractionDigits: 2
-          })
+        })
     }
     componentDidMount = function() {
         
@@ -56,9 +49,24 @@ class DailyMetric extends Component {
         var newBalance = balance - 5.75;
         this.updateBalance(newBalance);
     }
+    computeWorkEarnings = function() {
+        
+    }
     
     render() {
-        const percentage = 70;
+        const percentage = this.props.state.data.balance / this.props.state.data.goal;
+        console.log('metric rendered');
+        const hourlyWage = 0.00;
+        if(this.props.state.data.customer != null) {
+            const income = this.props.state.data.customer;
+            const today = moment().format('dddd');
+            const hour = moment().format('')
+            const workingDay = _lodash.filter(this.props.state.workSchedule, function(day) { 
+                return day.name === today && day.worksOn;
+            });
+            //HACK: We will be counting up ALL the time, not even during the day
+            //const isWorkingToday = _
+        }
         return (
             <div className="DailyMetric">
                 <div className="Bar">
@@ -72,11 +80,18 @@ class DailyMetric extends Component {
                   }}
                 />
                 </div>
-                <h4 className="Green">Earning</h4>
+                {this.props.state.data.balance > 0 &&
+                    <h4 className="Green">Earning</h4>
+                }
+
+                {this.props.state.data.balance <= 0 &&
+                    <h4 className="Red">Losing</h4>
+                }
+                
                 <CountUp
                     start={this.props.state.data.oldBalance}
                     end={this.props.state.data.balance}
-                    duration={2.75}
+                    duration={3.00}
                     separator=","
                     decimals={2}
                     decimal="."
@@ -93,7 +108,7 @@ class DailyMetric extends Component {
                     )}
                 </CountUp>
                 <hr></hr>
-                <h4 className="saved"><span className="Goal">Goal</span> $342.23</h4>
+                <h4 className="saved"><span className="Goal">Goal</span> { numeral(this.props.state.data.goal).format('$ 0.00 a')}</h4>
 
                 {this.props.state.data.showDecrease &&
                     <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
