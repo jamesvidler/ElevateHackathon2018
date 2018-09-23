@@ -5,7 +5,7 @@ body {
   color: white;
 }
 .MainBox {
-  top:110px;
+  top:85px;
   width:312px;
   height:390px;
   margin:0 auto;
@@ -18,9 +18,9 @@ body {
 .Enclose{
   width: 500px;
   height: 600px;
-  background-image: url("/case3.png");
+  background-image: url("/case4.png");
   background-repeat: no-repeat;
-  background-size: 580px 540px;
+  background-size: 520px 900px;
   background-position: center;
   background-color: #000;
   text-align:center;
@@ -35,7 +35,7 @@ h1 {
 h2{
   font-family: 'Lato', sans-serif; 
   font-weight: 300;
-  font-size: 3.7em;
+  font-size: 3em;
   margin: 0;
 }
 h3 {
