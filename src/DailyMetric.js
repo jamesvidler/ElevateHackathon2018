@@ -4,14 +4,16 @@ import CountUp from 'react-countup';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import numeral from 'numeral'
+import moment from 'moment'
+import _lodash from 'lodash'
 
 class DailyMetric extends Component {
     constructor(props) {
         super(props);
         
-        //this.changeStateTestVal = this.changeStateTestVal.bind(this);
         this.increaseBalance = this.increaseBalance.bind(this);
         this.decreaseBalance = this.decreaseBalance.bind(this);
+
         this.state = {};          
 
         this.hideTransactionsAfterTimeout = false;
@@ -20,7 +22,7 @@ class DailyMetric extends Component {
             style: 'currency',
             currency: 'USD',
             minimumFractionDigits: 2
-          })
+        })
     }
     componentDidMount = function() {
         
@@ -47,10 +49,24 @@ class DailyMetric extends Component {
         var newBalance = balance - 5.75;
         this.updateBalance(newBalance);
     }
+    computeWorkEarnings = function() {
+        
+    }
     
     render() {
         const percentage = this.props.state.data.balance / this.props.state.data.goal;
         console.log('metric rendered');
+        const hourlyWage = 0.00;
+        if(this.props.state.data.customer != null) {
+            const income = this.props.state.data.customer;
+            const today = moment().format('dddd');
+            const hour = moment().format('')
+            const workingDay = _lodash.filter(this.props.state.workSchedule, function(day) { 
+                return day.name === today && day.worksOn;
+            });
+            //HACK: We will be counting up ALL the time, not even during the day
+            //const isWorkingToday = _
+        }
         return (
             <div className="DailyMetric">
                 <div className="Bar">
@@ -64,7 +80,14 @@ class DailyMetric extends Component {
                   }}
                 />
                 </div>
-                <h4 className="Green">Earning</h4>
+                {this.props.state.data.balance > 0 &&
+                    <h4 className="Green">Earning</h4>
+                }
+
+                {this.props.state.data.balance <= 0 &&
+                    <h4 className="Red">Losing</h4>
+                }
+                
                 <CountUp
                     start={this.props.state.data.oldBalance}
                     end={this.props.state.data.balance}
