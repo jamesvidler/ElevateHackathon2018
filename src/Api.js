@@ -32,8 +32,6 @@ function getTransactions(callback) {
   })();
 }
 
-
-
 /*
   Fetches any new transactions 
   If there are multiple transactions, it returns an array of transactions json objects
@@ -123,6 +121,27 @@ function getReoccuringTransactions(transactions) {
     }
   }
   return reoccuringTransactions;
+}
+
+/*
+  Gets all the transactions for a given day
+  Inclusive of any reoccuring transactions
+  Date has to be of format YYYY-MM-DD
+*/
+function getTransactionsForDay(date, callback) {
+  (async () => {
+    await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
+    .then((resp) => {
+      var transactionForTheDay = [];
+      const transactions = resp.result;
+      for(var i = 0; i < transactions.length; i++) {
+        if(transactions[i].originationDateTime.indexOf(date)!=-1) {
+          transactionForTheDay.push(transactions[i]);
+        }
+      }
+      callback(transactionForTheDay); 
+    }, handleError)
+  })();
 }
 
 /*
