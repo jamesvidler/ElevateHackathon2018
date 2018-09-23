@@ -46,7 +46,7 @@ function getNewTransactions(transactions, date, callback) {
         var numOfNewTransactions = newArraySize - currentArraySize;
         var newTransactions = [];
         for(var i = newArraySize; i > currentArraySize; i--) {
-          newTransactions.push(resp.result[i]); 
+          newTransactions.push(resp.result[i-1]); 
         }
         callback(newTransactions);
       }
@@ -146,6 +146,30 @@ function getTransactionsForDay(date, callback) {
       callback(transactionForTheDay); 
     }, handleError)
   })();
+}
+/*
+  Tells you how much you saved compared to yesterday
+  Gives back a percentage
+*/
+function compareSavings(today, yesterday, callback) {
+  var yesterdaysTransactions;
+  var todaysTransactions;
+  var yesterdaysCost = 0;
+  var todaysCost = 0;
+  getTransactionsForDay(yesterday, function(res) {
+    yesterdaysTransactions = res;
+    getTransactionsForDay(today, function(resp) {
+      todaysTransactions = resp;
+      for(var i = 0; i < yesterdaysTransactions.length; i++) {
+        yesterdaysCost = yesterdaysCost + yesterdaysTransactions[i].currencyAmount;
+      }
+      for(var i = 0; i < todaysTransactions.length; i++) {
+        todaysCost = todaysCost + todaysTransactions[i].currencyAmount;
+      }
+      var percent = ((yesterday-today)/today)*100;
+      callback(percent);
+    })
+  });
 }
 
 /*
