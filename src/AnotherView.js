@@ -14,7 +14,10 @@ class AnotherView extends Component {
         return (
 
             <div className="AnotherView">
-                <h1>hello!</h1>
+                <h2>To start sharing
+                    your Activity, use
+                    the Activity app
+                    on your iPhone.</h2>
             </div>
         );
     }

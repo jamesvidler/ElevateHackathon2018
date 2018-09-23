@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './TransactionHistory.css';
+import numeral from 'numeral'
 
 class TransactionHistory extends Component {
     constructor(props) {
@@ -9,13 +10,13 @@ class TransactionHistory extends Component {
 
     }
     
-    render() {
+    render() {  
         const transactionItems = this.props.state.data.transactions.map((t) =>
             <div className="trans">
                <p className="transText">
                 <i class="fas fa-utensils"></i> 
                     <span className="amountText">
-                        ${ t.currencyAmount}
+                    {numeral(t.currencyAmount).format('$ 0.00 a')} 
                     </span>
                 </p>
             </div>
