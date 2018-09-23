@@ -11,10 +11,9 @@ class TransactionHistory extends Component {
     
     render() {
         const transactionItems = this.props.state.data.transactions.map((t) =>
-            <li>
-                <span>Amount: {t.currencyAmount}</span> | <span>Merchant: {t.merchantName}</span><br/>
-                <span>Tag: {t.categoryTags}</span>
-            </li>
+            <div className="trans">
+               <p className="transText">${t.currencyAmount}</p>
+            </div>
         );
         return (
 

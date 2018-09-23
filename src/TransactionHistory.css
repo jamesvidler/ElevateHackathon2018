@@ -2,4 +2,23 @@
     height: 390px;
     width: 312px;
     background: black;
+    color: white;
+}
+
+
+.trans {
+    width: 90%;
+    height: 100px;
+    border: 2px solid white;
+    border-radius: 15px;
+    background-color: white;
+    opacity: 0.14;
+    margin-bottom: 10px;
+}
+
+.transText {
+    color:black;
+    
+    font-size: 2em;
+    opacity: 1 !important;
 }
