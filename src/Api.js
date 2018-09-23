@@ -40,7 +40,7 @@ function getTransactions(callback) {
 */
 function getNewTransactions(transactions, date, callback) {
   getTransactionsForDay(date, function(resp) {
-    const newArraySize = resp.result.length;
+    const newArraySize = resp.length;
       const currentArraySize = transactions.length;
       if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
         var numOfNewTransactions = newArraySize - currentArraySize;
@@ -132,16 +132,18 @@ function getTransactionsForDay(date, callback) {
     .then((resp) => {
       var transactionForTheDay = [];
       const transactions = resp.result;
+
+      var reoccuringTransactions = getReoccuringTransactions(transactions);
+      for(var i = 0; i < reoccuringTransactions.length; i++) {
+        reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
+        transactionForTheDay.push(reoccuringTransactions[i]);
+      }
+
       for(var i = 0; i < transactions.length; i++) {
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
           transactions[i].currencyAmount = transactions[i].currencyAmount.toFixed(2); 
           transactionForTheDay.push(transactions[i]);
         }
-      }
-      var reoccuringTransactions = getReoccuringTransactions(transactions);
-      for(var i = 0; i < reoccuringTransactions.length; i++) {
-        reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
-        transactionForTheDay.push(reoccuringTransactions[i]);
       }
       callback(transactionForTheDay); 
     }, handleError)
