@@ -1,5 +1,7 @@
 // Run `npm init`, then `npm install request request-debug request-promise-native --save`
 "use strict";
+import moment from 'moment'
+import tz from 'moment-timezone'
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -26,11 +28,19 @@ function getTransactions(callback) {
   (async () => {
     await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
     .then((resp) => {
-      const transactions = resp.result;
+      for(var i in resp.result) {
+        resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
+      }
+      var transactions = resp.result;
       callback(transactions);
     }, handleError)
   })();
 }
+
+function convertToEST(date) {
+  return moment(date).tz('America/New_York').format();
+}
+
 
 /*
   Fetches any new transactions 
@@ -138,7 +148,6 @@ function getTransactionsForDay(date, callback) {
         reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
         transactionForTheDay.push(reoccuringTransactions[i]);
       }
-
       for(var i = 0; i < transactions.length; i++) {
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
           transactions[i].currencyAmount = transactions[i].currencyAmount.toFixed(2); 
@@ -197,7 +206,8 @@ var Api = {
   getCustomer,
   getNewTransactions,
   getTransactions,
-  getTransactionsForDay
+  getTransactionsForDay,
+  compareSavings
 }
 
 export default Api;
