@@ -96,7 +96,9 @@ function getReoccuringCategoryTags(categoryTags) {
         categoryTags[i] == "Bills and Utilities" ||
         categoryTags[i] == "Loans" ||
         categoryTags[i] == "Health and Fitness" ||
-        categoryTags[i] == "Mortgage and Rent"
+        categoryTags[i] == "Mortgage and Rent" ||
+        categoryTags[i] == "Uncategorized" ||
+        categoryTags[i] == "Misc."
     ) {
       reoccuringTags.push(categoryTags[i]);
     }
@@ -141,7 +143,7 @@ function getTransactionsForDay(date, callback) {
       }
       var reoccuringTransactions = getReoccuringTransactions(transactions);
       for(var i = 0; i < reoccuringTransactions.length; i++) {
-        reoccuringTransactions[i].currencyAmount = reoccuringTransactions[i].currencyAmount / 30;
+        reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
         transactionForTheDay.push(reoccuringTransactions[i]);
       }
       callback(transactionForTheDay); 

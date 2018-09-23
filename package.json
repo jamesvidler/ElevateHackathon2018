@@ -15,7 +15,7 @@
     "request-debug": "^0.2.0",
     "request-promise-native": "^1.0.5"
   },
-  "engines":{
+  "engines": {
     "node": ">= 6"
   },
   "scripts": {
