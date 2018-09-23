@@ -135,7 +135,6 @@ function getTransactionsForDay(date, callback) {
       var transactionForTheDay = [];
       const transactions = resp.result;
       for(var i = 0; i < transactions.length; i++) {
-        var categoryTag = transactions[i].categoryTags[0];
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
           transactionForTheDay.push(transactions[i]);
         }
