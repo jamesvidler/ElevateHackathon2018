@@ -1,5 +1,5 @@
-// Run `npm init`, then `npm install request request-debug request-promise-native --save`
-"use strict";
+import moment from 'moment'
+import tz from 'moment-timezone'
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -26,10 +26,17 @@ function getTransactions(callback) {
   (async () => {
     await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
     .then((resp) => {
-      const transactions = resp.result;
+      for(var i in resp.result) {
+        resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
+      }
+      var transactions = resp.result;
       callback(transactions);
     }, handleError)
   })();
+}
+
+function convertToEST(date) {
+  return moment(date).tz('America/New_York').format();
 }
 
 /*
@@ -40,16 +47,15 @@ function getTransactions(callback) {
 */
 function getNewTransactions(transactions, date, callback) {
   getTransactionsForDay(date, function(resp) {
-    const newArraySize = resp.result.length;
-      const currentArraySize = transactions.length;
-      if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
-        var numOfNewTransactions = newArraySize - currentArraySize;
-        var newTransactions = [];
-        for(var i = newArraySize; i > currentArraySize; i--) {
-          newTransactions.push(resp.result[i]); 
-        }
-        callback(newTransactions);
+    var newTransactions = [];
+    const newArraySize = resp.length;
+    const currentArraySize = transactions.length;
+    if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
+      for(var i = newArraySize; i > currentArraySize; i--) {
+        newTransactions.push(resp.result[i]); 
       }
+    }
+    callback(newTransactions);
   })
 }
 
@@ -131,6 +137,11 @@ function getTransactionsForDay(date, callback) {
     await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
     .then((resp) => {
       var transactionForTheDay = [];
+
+      for(var i in resp.result) {
+        resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
+      }
+
       const transactions = resp.result;
       for(var i = 0; i < transactions.length; i++) {
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
