@@ -94,8 +94,8 @@ class DailyMetric extends Component {
                     <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
                 }
                 
-                <button onClick={this.increaseBalance}>increase balance</button>
-                <button onClick={this.decreaseBalance}>decrease balance</button>
+                {/* <button onClick={this.increaseBalance}>increase balance</button>
+                <button onClick={this.decreaseBalance}>decrease balance</button> */}
             </div>
         );
     }
