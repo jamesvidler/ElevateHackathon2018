@@ -100,13 +100,14 @@ class App extends Component {
         
         <Link to="/">Home</Link>
         <Link to="/anotherview">Another View</Link>
-
-        <main className="MainBox">
-          <SwipeableRoutes>
-            <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
-            <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
-          </SwipeableRoutes>
-        </main>
+        <div class='Enclose'>
+          <main className="MainBox">
+            <SwipeableRoutes>
+              <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
+              <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
+            </SwipeableRoutes>
+          </main>
+        </div>
       </div>
     );
   }
