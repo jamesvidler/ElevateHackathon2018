@@ -1,5 +1,5 @@
 import moment from 'moment'
-import tz from 'moment-timezone'
+import 'moment-timezone'
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 

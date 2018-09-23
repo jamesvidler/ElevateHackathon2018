@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './DailyMetric.css';
-import Api  from './Api';
 import CountUp from 'react-countup';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
