@@ -55,7 +55,7 @@ function getNewTransactions(transactions, date, callback) {
       var numOfNewTransactions = newArraySize - currentArraySize;
 
       for(var i = newArraySize; i > currentArraySize; i--) {
-        newTransactions.push(resp.result[i-1]); 
+        newTransactions.push(resp[i-1]); 
       }
 
 
@@ -185,8 +185,7 @@ var Api = {
   getCustomer,
   getNewTransactions,
   getTransactions,
-  getTransactionsForDay,
-  compareSavings
+  getTransactionsForDay
 }
 
 export default Api;
