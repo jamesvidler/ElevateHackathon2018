@@ -57,7 +57,6 @@ class DailyMetric extends Component {
     }
     
     render() {
-
         const percentage = 65;
         return (
             <div className="DailyMetric">
@@ -94,8 +93,7 @@ class DailyMetric extends Component {
                 {this.props.state.data.showDecrease &&
                     <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
                 }
-                <h4 className="saved">SAVED</h4>
-
+                
                 <button onClick={this.increaseBalance}>increase balance</button>
                 <button onClick={this.decreaseBalance}>decrease balance</button>
             </div>

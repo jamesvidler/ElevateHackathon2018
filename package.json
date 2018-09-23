@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "deepmerge": "^2.1.1",
     "react": "^16.5.2",
     "react-circular-progressbar": "^1.0.0",
     "react-countup": "^4.0.0-alpha.6",
