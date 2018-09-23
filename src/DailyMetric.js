@@ -71,13 +71,13 @@ class DailyMetric extends Component {
             <div className="DailyMetric">
                 <div className="Bar">
                 <CircularProgressbar
-                percentage={percentage}
-                textforPercentage={null} 
-                strokeWidth={10}
-                styles={{
-                    path: { stroke: `rgba(53, 178, 52, 100)` },
-                    trail: { stroke: '#590913'}
-                  }}
+                    percentage={percentage}
+                    textforPercentage={null} 
+                    strokeWidth={10}
+                    styles={{
+                        path: { stroke: `rgba(53, 178, 52, 100)` },
+                        trail: { stroke: '#590913'}
+                    }}
                 />
                 </div>
                 {this.props.state.data.balance > 0 &&
