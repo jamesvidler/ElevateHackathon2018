@@ -9,7 +9,7 @@ import AnotherView from './AnotherView'
 import Api from './Api'
 import deepmerge from 'deepmerge'
 import TransactionHistory from './TransactionHistory'
-import numeral from 'numeral'
+
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
@@ -68,7 +68,8 @@ var defaultValues = {
     showIncrease: false,
     showDecrease: false,
     transactions: [],
-    customer: null
+    customer: null,
+    goal: 75.00
   }
 };
 
@@ -97,7 +98,7 @@ class App extends Component {
             balance: balance
           }
         }); 
-        self.pollForUpdates();  
+        //self.pollForUpdates();  
       })
     })
   }
@@ -156,9 +157,9 @@ class App extends Component {
         <div className="Enclose">
           <main className="MainBox">
             <SwipeableRoutes>
-              <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
-              <Route exact path='/transaction-history' render={(props) => <TransactionHistory state={this.state} updateAppState={this.updateState} />}/>
-              <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
+              <Route key="1" exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
+              <Route key="2" exact path='/transaction-history' render={(props) => <TransactionHistory state={this.state} updateAppState={this.updateState} />}/>
+              <Route key="3" exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
             </SwipeableRoutes>
           </main>
         </div>

@@ -1,5 +1,7 @@
-// Run `npm init`, then `npm install request request-debug request-promise-native --save`
-"use strict";
+
+import moment from 'moment'
+import 'moment-timezone'
+
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -40,16 +42,18 @@ function getTransactions(callback) {
 */
 function getNewTransactions(transactions, date, callback) {
   getTransactionsForDay(date, function(resp) {
+    var newTransactions = [];
     const newArraySize = resp.length;
-      const currentArraySize = transactions.length;
-      if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
-        var numOfNewTransactions = newArraySize - currentArraySize;
-        var newTransactions = [];
-        for(var i = newArraySize; i > currentArraySize; i--) {
-          newTransactions.push(resp.result[i-1]); 
-        }
-        callback(newTransactions);
+    const currentArraySize = transactions.length;
+    if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
+      var numOfNewTransactions = newArraySize - currentArraySize;
+
+      for(var i = newArraySize; i > currentArraySize; i--) {
+        newTransactions.push(resp.result[i-1]); 
       }
+
+    }
+    callback(newTransactions);
   })
 }
 
