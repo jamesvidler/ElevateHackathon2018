@@ -9,6 +9,7 @@ import AnotherView from './AnotherView'
 import Api from './Api'
 import deepmerge from 'deepmerge'
 import TransactionHistory from './TransactionHistory'
+import numeral from 'numeral'
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
@@ -84,9 +85,9 @@ class App extends Component {
   }
   componentDidMount = function() {
     var self = this;
-
     Api.getCustomer(function(customer) {
       Api.getTransactionsForDay(self.state.date, function(transactions) {
+        console.log('initial transactions', transactions);
         var balance = self.computeBalance(transactions);
         self.updateBalance(balance);
         self.updateState({
@@ -95,14 +96,40 @@ class App extends Component {
             customer: customer,
             balance: balance
           }
-        });   
+        }); 
+        self.pollForUpdates();  
       })
     })
+  }
+  pollForUpdates = function() {
+    var self = this;
+    function refresh() {
+      
+        // make Ajax call here, inside the callback call:
+        Api.getNewTransactions(self.state.data.transactions, self.state.date, function(newTransactions) {
+          console.log('new transactions', newTransactions);
+          var transactions = self.state.data.transactions.concat(newTransactions);
+          var balance = self.computeBalance(transactions);
+          self.updateBalance(balance);
+          self.updateState({
+            data: {
+              transactions: transactions,
+              balance: balance
+            }
+          });   
+          setTimeout(refresh, 5000);
+        });
+        
+        // ...
+    }
+    
+    // initial call, or just call refresh directly
+    setTimeout(refresh, 5000);
   }
   computeBalance = function(transactions) {
     var balance = 0.00;
     for(var i in transactions) {
-      balance += transactions[i].currencyAmount;
+      balance += parseFloat(transactions[i].currencyAmount); //hack for a bug in Api.js
     }
     return balance;
   }
@@ -119,7 +146,8 @@ class App extends Component {
     });
   }
   updateState = function(stateData) {
-    var mergedState = deepmerge(this.state, stateData);
+    const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray
+    var mergedState = deepmerge(this.state, stateData, { arrayMerge: overwriteMerge });
     this.setState(mergedState);
   }
   render() {
