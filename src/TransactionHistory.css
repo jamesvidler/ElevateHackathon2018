@@ -14,18 +14,35 @@
     background-color: #242424;
     margin-bottom: 10px;
     text-align: initial;
+    position: relative;
 }
 
 .transText {
-
     color:white;
     font-size: 2em;
 }
 
 .amountText {
-    padding-left: 40px;
+    position: absolute;
+    right: 29px;
 }
+
 i {
     margin-left: 20px;
     font-size: 1em;
+}
+
+.green-text {
+    color: #77C61F;
+}
+
+.red-text {
+    color: #D0021B;
+}
+
+.desc {
+    position: absolute;
+    font-size: .5em!important;
+    top: 12px;
+    right: 29px;
 }

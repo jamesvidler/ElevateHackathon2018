@@ -22,6 +22,7 @@ class DailyMetric extends Component {
         this.percentage = 0;
         this.previousPercentage = 0;
         this.wageCounterStarted = false;
+        this.wageCounterInterval = null;
         this.hideTransactionsAfterTimeout = false;
 
         this.formatter = new Intl.NumberFormat('en-US', {
@@ -64,14 +65,19 @@ class DailyMetric extends Component {
         const timeInterval = 5; //s
         const amountPerInterval = hourlyWage / 360 * timeInterval;
         console.log('amountPerInterval', amountPerInterval);
-        setInterval(function() { 
+        self.wageCounterInterval = setInterval(function() { 
             self.props.updateWagePaid(amountPerInterval);
             //self.increaseBalance(amountPerInterval);
         }, timeInterval * 1000)
     }
+    stopWageCounter = function() {
+        this.wageCounterStarted = false;
+        if(this.wageCounterInterval != null) {
+            clearInterval(this.wageCounterInterval);
+        }
+    }
     checkIfWorkingAndPayWage = function() {
         //Check if we can start the wage counter
-        //HACK: Let's start the wage counter anyways for demo purposes!
         const totalIncome = this.props.state.data.customer.totalIncome;
         const timeFormat = 'hh:mm';
         const now = moment();
@@ -96,6 +102,8 @@ class DailyMetric extends Component {
                 const hourlyWage = totalIncome / hoursPerYear;
                 console.log('hourlyWage', hourlyWage)
                 this.startWageCounter(hourlyWage);
+            } else {
+                this.wageCounterStarted = false;
             }
         }
     }
@@ -122,7 +130,7 @@ class DailyMetric extends Component {
         console.log(this.percentage);
         console.log('metric rendered');
         const hourlyWage = 0.00;
-        if(this.props.state.data.customer != null) {
+        if(this.props.state.data.customer != null && !this.props.state.disableEarning) {
             this.checkIfWorkingAndPayWage(); 
         }
         return (
@@ -141,12 +149,20 @@ class DailyMetric extends Component {
                     }}
                 />
                 </div>
-                {this.props.state.data.balance > 0 &&
+                {this.props.state.data.balance > 0 && this.wageCounterStarted &&
                     <h4 className="Green">Earning</h4>
+                }
+
+                {this.props.state.data.balance > 0 && !this.wageCounterStarted &&
+                    <h4 className="Green">Killing it!</h4>
                 }
 
                 {this.props.state.data.balance <= 0 &&
                     <h4 className="Red">Warning</h4>
+                }
+
+                {this.props.state.data.balance <= 0 && this.wageCounterStarted &&
+                    <h4 className="Red">Earning</h4>
                 }
                 
                 <CountUp
@@ -171,9 +187,9 @@ class DailyMetric extends Component {
                 <hr></hr>
                 <h4 className="saved"><span className="Goal">Goal</span> { numeral(this.props.state.data.goal).format('$ 0.00 a')}</h4>
 
-                {this.props.state.data.showDecrease &&
+                {/* {this.props.state.data.showDecrease &&
                     <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
-                }
+                } */}
                 
                 {/* <button onClick={this.increaseBalance}>increase balance</button>
                 <button onClick={this.decreaseBalance}>decrease balance</button> */}

@@ -14,7 +14,7 @@ import moment from 'moment'
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
-  test: 'some val',
+  disableEarning: (window.location.search != null && window.location.search.length > 0),
   date: moment().format('YYYY-MM-DD'),
   workSchedule: 
     [
@@ -146,10 +146,21 @@ class App extends Component {
     var diff = newBalance - this.state.data.balance;
     var data = {
         oldBalance: this.state.data.balance,
-        balance: newBalance,
-        lastIncrease: (diff > 0 ? this.formatter.format(diff) : this.state.data.lastIncrease),
-        lastDecrease: (diff < 0 ? this.formatter.format(diff) : this.state.data.lastDecrease)
+        balance: newBalance
     }
+
+    if(diff > 0) {
+      //income
+      data.lastIncrease = diff;
+      data.showIncrease = true;
+      data.showDecrease = false;
+    } else {
+      //decrease
+      data.lastDecrease = diff;
+      data.showDecrease = true;
+      data.showIncrease = false;
+    }
+
     this.updateState({
         data: data
     });

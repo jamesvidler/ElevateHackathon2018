@@ -11,33 +11,53 @@ class TransactionHistory extends Component {
     }
     
     render() {  
+        const icon = function(category) {
+            var html = null;
+            if(category === 'Income') {
+                html = <i class="far fa-money-bill-alt"></i>
+            } else if (category === 'Food and Dining') {
+                html = <i class="fas fa-utensils"></i>
+            } else if (category === 'Bill and Utilities') {
+                html = <i class="far fa-money-bill-alt"></i>
+            } else if (category === 'Health and Fitness') {
+                html = <i class="far fa-money-bill-alt"></i>
+            } else if (category === '') {
+                html = <i class="far fa-money-bill-alt"></i>
+            } else if (category === 'Shopping') {
+                html = <i class="fas fa-shopping-bag"></i>
+            } else if (category === 'Auto and Transport') {
+                html = <i class="fas fa-car"></i>
+            } else {
+                html = <i class="fas fa-dollar-sign"></i>
+            }
+            return html;
+        }
         const transactionItems = this.props.state.data.transactions.map((t) =>
             <div className="trans">
              <p className="transText">
-               
-               
-               {t.categoryTags[0] === 'Food and Dining' &&
-               <i class="fas fa-utensils"></i>
-               }
-               {t.categoryTags[0] === 'Income' &&
-               <i class="far fa-money-bill-alt"></i>
-               }
-               {t.categoryTags[0] === 'Shopping' &&
-               <i class="fas fa-shopping-bag"></i>
-               }
-               {t.categoryTags[0] === 'Auto and Transport' &&
-               <i class="fas fa-car"></i>
-               }
-               <span className="amountText">
-               {numeral(t.currencyAmount).format('$ 0.00 a')} 
+               {icon(t.categoryTags[0])}
+
+               <span className="desc">{t.merchantName}</span>
+
+               {t.currencyAmount > 0 && 
+               <span className="amountText green-text">
+                {numeral(t.currencyAmount).format('$ 0.00 a')} 
                </span>
+               }
+
+               {t.currencyAmount < 0 && 
+               <span className="amountText red-text">
+                {numeral(t.currencyAmount).format('$ 0.00 a')} 
+               </span>
+               }
+               
             </p>
             </div>
         );
         return (
 
             <div className="TransactionHistory">
-            <h3>Purchase Details</h3>
+            <h3>Your Details</h3>
                 <ul>
                     {transactionItems}
                 </ul>

@@ -1,5 +1,6 @@
 import moment from 'moment'
 import tz from 'moment-timezone'
+import _ from 'lodash'
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -28,8 +29,14 @@ function getTransactions(callback) {
     .then((resp) => {
       for(var i in resp.result) {
         resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
+        if(resp.result[i].type === 'CreditCardTransaction') {
+          //Hack: convert credit card charges to negatives..
+          resp.result[i].currencyAmount = resp.result[i].currencyAmount * -1;
+        }
+
       }
       var transactions = resp.result;
+
       callback(transactions);
     }, handleError)
   })();
@@ -51,15 +58,14 @@ function getNewTransactions(transactions, date, callback) {
     var newTransactions = [];
     const newArraySize = resp.length;
     const currentArraySize = transactions.length;
-    var reversedArr = [];
     if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
       var numOfNewTransactions = newArraySize - currentArraySize;
 
-      for(var i = newArraySize; i > currentArraySize; i--) {
-        newTransactions.push(resp[i-1]); 
+      for(var i = 0; i < numOfNewTransactions; i++) {
+        newTransactions.push(resp[i]); 
       }
     }
-    callback(reversedArr);
+    callback(newTransactions);
   })
 }
 
@@ -137,31 +143,26 @@ function getReoccuringTransactions(transactions) {
   Date has to be of format YYYY-MM-DD
 */
 function getTransactionsForDay(date, callback) {
-  (async () => {
-    await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
-    .then((resp) => {
-      var transactionForTheDay = [];
+  getTransactions(function(transactions) {
+    var transactionForTheDay = [];
 
-      for(var i in resp.result) {
-        resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
-      }
-      const transactions = resp.result;
+    var reoccuringTransactions = getReoccuringTransactions(transactions);
+    for(var i = 0; i < reoccuringTransactions.length; i++) {
+      reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
+      transactionForTheDay.push(reoccuringTransactions[i]);
+    }
 
-      var reoccuringTransactions = getReoccuringTransactions(transactions);
-      for(var i = 0; i < reoccuringTransactions.length; i++) {
-        reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
-        transactionForTheDay.push(reoccuringTransactions[i]);
+    for(var i = 0; i < transactions.length; i++) {
+      if(transactions[i].originationDateTime.indexOf(date)!=-1) {
+        transactionForTheDay.push(transactions[i]);
       }
+    }
 
-      for(var i = 0; i < transactions.length; i++) {
-        if(transactions[i].originationDateTime.indexOf(date)!=-1) {
-          transactionForTheDay.push(transactions[i]);
-        }
-      }
-      transactionForTheDay = transactionForTheDay.reverse();
-      callback(transactionForTheDay); 
-    }, handleError)
-  })();
+    transactionForTheDay = _.sortBy(transactionForTheDay, [function(o) { return o.originationDateTime; }]).reverse();
+
+    //transactionForTheDay = transactionForTheDay.reverse();
+    callback(transactionForTheDay); 
+  })
 }
 
 /*
