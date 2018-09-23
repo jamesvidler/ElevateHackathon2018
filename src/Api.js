@@ -146,13 +146,14 @@ function getTransactionsForDay(date, callback) {
       for(var i in resp.result) {
         resp.result[i].originationDateTime = convertToEST(resp.result[i].originationDateTime);
       }
+      const transactions = resp.result;
+
       var reoccuringTransactions = getReoccuringTransactions(transactions);
       for(var i = 0; i < reoccuringTransactions.length; i++) {
         reoccuringTransactions[i].currencyAmount = (reoccuringTransactions[i].currencyAmount / 30).toFixed(2);
         transactionForTheDay.push(reoccuringTransactions[i]);
       }
 
-      const transactions = resp.result;
       for(var i = 0; i < transactions.length; i++) {
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
           transactionForTheDay.push(transactions[i]);
