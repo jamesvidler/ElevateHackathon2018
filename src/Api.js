@@ -134,6 +134,7 @@ function getTransactionsForDay(date, callback) {
       const transactions = resp.result;
       for(var i = 0; i < transactions.length; i++) {
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
+          transactions[i].currencyAmount = transactions[i].currencyAmount.toFixed(2); 
           transactionForTheDay.push(transactions[i]);
         }
       }
