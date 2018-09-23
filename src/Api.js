@@ -51,14 +51,13 @@ function getNewTransactions(transactions, date, callback) {
     var newTransactions = [];
     const newArraySize = resp.length;
     const currentArraySize = transactions.length;
+    var reversedArr = [];
     if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
       var numOfNewTransactions = newArraySize - currentArraySize;
 
       for(var i = newArraySize; i > currentArraySize; i--) {
         newTransactions.push(resp[i-1]); 
       }
-      var reversedArr = newTransactions.reverse();
-
     }
     callback(reversedArr);
   })
@@ -159,7 +158,7 @@ function getTransactionsForDay(date, callback) {
           transactionForTheDay.push(transactions[i]);
         }
       }
-      
+      transactionForTheDay = transactionForTheDay.reverse();
       callback(transactionForTheDay); 
     }, handleError)
   })();
