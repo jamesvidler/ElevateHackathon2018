@@ -12,15 +12,7 @@ class DailyMetric extends Component {
         //this.changeStateTestVal = this.changeStateTestVal.bind(this);
         this.increaseBalance = this.increaseBalance.bind(this);
         this.decreaseBalance = this.decreaseBalance.bind(this);
-        // this.state = {
-        //     oldBalance: 0.00,
-        //     balance: 0.00,
-        //     lastIncrease: "$ 0.00",
-        //     lastDecrease: "$ 0.00",
-        //     showIncrease: false,
-        //     showDecrease: false,
-        //     transactions: []
-        // };          
+        this.state = {};          
 
         this.hideTransactionsAfterTimeout = false;
 
@@ -57,7 +49,8 @@ class DailyMetric extends Component {
     }
     
     render() {
-        const percentage = 70;
+        const percentage = this.props.state.data.balance / this.props.state.data.goal;
+        console.log('metric rendered');
         return (
             <div className="DailyMetric">
                 <div className="Bar">
@@ -75,7 +68,7 @@ class DailyMetric extends Component {
                 <CountUp
                     start={this.props.state.data.oldBalance}
                     end={this.props.state.data.balance}
-                    duration={2.75}
+                    duration={3.00}
                     separator=","
                     decimals={2}
                     decimal="."
@@ -92,7 +85,7 @@ class DailyMetric extends Component {
                     )}
                 </CountUp>
                 <hr></hr>
-                <h4 className="saved"><span className="Goal">Goal</span> $342.23</h4>
+                <h4 className="saved"><span className="Goal">Goal</span> { numeral(this.props.state.data.goal).format('$ 0.00 a')}</h4>
 
                 {this.props.state.data.showDecrease &&
                     <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
