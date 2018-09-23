@@ -135,9 +135,15 @@ function getTransactionsForDay(date, callback) {
       var transactionForTheDay = [];
       const transactions = resp.result;
       for(var i = 0; i < transactions.length; i++) {
+        var categoryTag = transactions[i].categoryTags[0];
         if(transactions[i].originationDateTime.indexOf(date)!=-1) {
           transactionForTheDay.push(transactions[i]);
         }
+      }
+      var reoccuringTransactions = getReoccuringTransactions(transactions);
+      for(var i = 0; i < reoccuringTransactions.length; i++) {
+        reoccuringTransactions[i].currencyAmount = reoccuringTransactions[i].currencyAmount / 30;
+        transactionForTheDay.push(reoccuringTransactions[i]);
       }
       callback(transactionForTheDay); 
     }, handleError)
