@@ -166,7 +166,7 @@ function compareSavings(today, yesterday, callback) {
       for(var i = 0; i < todaysTransactions.length; i++) {
         todaysCost = todaysCost + todaysTransactions[i].currencyAmount;
       }
-      var percent = ((yesterday-today)/today)*100;
+      var percent = ((yesterday-today)/today)*100; 
       callback(percent);
     })
   });
