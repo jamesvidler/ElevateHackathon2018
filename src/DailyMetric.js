@@ -4,6 +4,7 @@ import Api  from './Api';
 import CountUp from 'react-countup';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import numeral from 'numeral'
 
 class DailyMetric extends Component {
     constructor(props) {
@@ -82,6 +83,9 @@ class DailyMetric extends Component {
                     suffix=""
                     onEnd={() => console.log('Ended! 👏')}
                     onStart={() => console.log('Started! 💨')}
+                    formattingFn={(value) => {
+                        return numeral(value).format('$ 0.00 a');
+                    }}
                     >
                     {({ countUpRef }) => (
                         <h2 className="DaySave" ref={countUpRef}/>
