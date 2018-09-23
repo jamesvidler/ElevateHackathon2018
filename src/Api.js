@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 import moment from 'moment'
 import tz from 'moment-timezone'
+=======
+
+import moment from 'moment'
+import 'moment-timezone'
+
+>>>>>>> 062d05f8606d62147370a48a1576f1854ff94c99
 
 const req = require('request-promise-native'); // use Request library + promises to reduce lines of code
 
@@ -51,9 +58,17 @@ function getNewTransactions(transactions, date, callback) {
     const newArraySize = resp.length;
     const currentArraySize = transactions.length;
     if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
+      var numOfNewTransactions = newArraySize - currentArraySize;
+
       for(var i = newArraySize; i > currentArraySize; i--) {
+<<<<<<< HEAD
         newTransactions.push(resp.result[i]); 
       }
+=======
+        newTransactions.push(resp.result[i-1]); 
+      }
+
+>>>>>>> 062d05f8606d62147370a48a1576f1854ff94c99
     }
     callback(newTransactions);
   })
