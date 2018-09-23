@@ -57,7 +57,7 @@ function getNewTransactions(transactions, date, callback) {
       for(var i = newArraySize; i > currentArraySize; i--) {
         newTransactions.push(resp.result[i-1]); 
       }
-
+      newTransactions.reverse();
 
     }
     callback(newTransactions);
