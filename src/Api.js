@@ -162,6 +162,12 @@ function handleError(err) {
   process.exit(1);
 }
 
-var Api = {getReoccuringTransactions,
-  getCustomer, getNewTransactions, getTransactions}
+var Api = {
+  getReoccuringTransactions,
+  getCustomer,
+  getNewTransactions,
+  getTransactions,
+  getTransactionsForDay
+}
+
 export default Api;

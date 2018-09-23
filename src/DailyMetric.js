@@ -55,6 +55,7 @@ class DailyMetric extends Component {
     }
     
     render() {
+        const test = null;
         return (
             
             <div className="DailyMetric">
