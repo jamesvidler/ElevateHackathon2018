@@ -84,7 +84,6 @@ class App extends Component {
   }
   componentDidMount = function() {
     var self = this;
-
     Api.getCustomer(function(customer) {
       Api.getTransactionsForDay(self.state.date, function(transactions) {
         var balance = self.computeBalance(transactions);
@@ -95,9 +94,34 @@ class App extends Component {
             customer: customer,
             balance: balance
           }
-        });   
+        }); 
+        self.pollForUpdates();  
       })
     })
+  }
+  pollForUpdates = function() {
+    var self = this;
+
+    function refresh() {
+        // make Ajax call here, inside the callback call:
+        Api.getNewTransactions(self.state.data.transactions, function(newTransactions) {
+          var transactions = self.state.data.transactions.concat(newTransactions);
+          var balance = self.computeBalance(transactions);
+          self.updateBalance(balance);
+          self.updateState({
+            data: {
+              transactions: transactions,
+              balance: balance
+            }
+          });   
+          setTimeout(refresh, 5000);
+        });
+        
+        // ...
+    }
+    
+    // initial call, or just call refresh directly
+    setTimeout(refresh, 5000);
   }
   computeBalance = function(transactions) {
     var balance = 0.00;
