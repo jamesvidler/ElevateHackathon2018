@@ -124,14 +124,16 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <main className="MainBox">
-          <SwipeableRoutes>
-            <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
-            <Route exact path='/transaction-history' render={(props) => <TransactionHistory state={this.state} updateAppState={this.updateState} />}/>
-            <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
-          </SwipeableRoutes>
-        </main>
+      <div className="App">        
+        <div className="Enclose">
+          <main className="MainBox">
+            <SwipeableRoutes>
+              <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
+              <Route exact path='/transaction-history' render={(props) => <TransactionHistory state={this.state} updateAppState={this.updateState} />}/>
+              <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
+            </SwipeableRoutes>
+          </main>
+        </div>
       </div>
     );
   }

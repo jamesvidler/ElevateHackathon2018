@@ -5,11 +5,27 @@ body {
   color: white;
 }
 .MainBox {
-  border: 2px solid white;
+  top:110px;
   width:312px;
   height:390px;
   margin:0 auto;
   position: relative;
+
+}
+.App{
+  text-align: center;
+}
+.Enclose{
+  width: 500px;
+  height: 600px;
+  background-image: url("/case2.png");
+  background-repeat: no-repeat;
+  background-size: 580px 540px;
+  background-position: center;
+  background-color: #000;
+  text-align:center;
+  margin-left: 30%;
+
 }
 h1 {
   font-family: 'Lato', sans-serif; 
@@ -19,7 +35,7 @@ h1 {
 h2{
   font-family: 'Lato', sans-serif; 
   font-weight: 300;
-  font-size: 4.5em;
+  font-size: 3.7em;
   margin: 0;
 }
 h3 {
