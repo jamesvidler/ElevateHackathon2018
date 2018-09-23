@@ -20,38 +20,38 @@ var defaultValues = {
     [
       {
           name: "Sunday",
-          worksOn: false,
-          startTime: null,
-          endTime : null,
+          worksOn: true,
+          startTime: "02:00",
+          endTime : "20:00",
       },
       {
           name: "Monday",
           worksOn: true,
-          startTime: "9:00",
+          startTime: "09:00",
           endTime : "17:00",
       },
       {
           name: "Tuesday",
           worksOn: true,
-          startTime: "9:00",
+          startTime: "09:00",
           endTime : "17:00",
       },
       {
           name: "Wednesday",
           worksOn: true,
-          startTime: "9:00",
+          startTime: "09:00",
           endTime : "17:00",
       },
       {
           name: "Thursday",
           worksOn: true,
-          startTime: "9:00",
+          startTime: "09:00",
           endTime : "17:00",
       },
       {
           name: "Friday",
           worksOn: true,
-          startTime: "9:00",
+          startTime: "09:00",
           endTime : "17:00",
       },  
       {
@@ -70,7 +70,8 @@ var defaultValues = {
     showDecrease: false,
     transactions: [],
     customer: null,
-    goal: 75.00
+    goal: 75.00,
+    wagePaid: 0
   }
 };
 
@@ -84,6 +85,8 @@ class App extends Component {
       currency: 'USD',
       minimumFractionDigits: 2
     })
+    this.updateWagePaid = this.updateWagePaid.bind(this);
+    this.wagePaid = 0;
   }
   componentDidMount = function() {
     var self = this;
@@ -128,11 +131,15 @@ class App extends Component {
     // initial call, or just call refresh directly
     setTimeout(refresh, 5000);
   }
+  updateWagePaid = function(wagePaid) {
+    this.wagePaid += wagePaid;
+  }
   computeBalance = function(transactions) {
     var balance = 0.00;
     for(var i in transactions) {
       balance += parseFloat(transactions[i].currencyAmount); //hack for a bug in Api.js
     }
+    balance += this.wagePaid;
     return balance;
   }
   updateBalance = function(newBalance) {
@@ -158,7 +165,7 @@ class App extends Component {
         <div className="Enclose">
           <main className="MainBox">
             <SwipeableRoutes>
-              <Route key="1" exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
+              <Route key="1" exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} updateWagePaid={this.updateWagePaid} />}/>
               <Route key="2" exact path='/transaction-history' render={(props) => <TransactionHistory state={this.state} updateAppState={this.updateState} />}/>
               <Route key="3" exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
             </SwipeableRoutes>

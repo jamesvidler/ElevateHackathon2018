@@ -58,3 +58,8 @@ p {
   font-size: 24px;
   font-weight: 200;
 }
+
+#Confetti {
+  width: 200%;
+  height: 100%
+}
