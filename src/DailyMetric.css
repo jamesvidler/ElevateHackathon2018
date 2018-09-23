@@ -44,6 +44,19 @@ hr {
     width: 312px;
 }
 
+.Red {
+    color: #D0021B;
+    top: 30%;
+    text-align: center;
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 312px;
+}
+
+
 .saved {
     top: 63%;
     text-align: center;
@@ -65,29 +78,3 @@ hr {
     margin-right: auto; 
     width: 312px;
 }
-
-.circle {
-    width: 10px;
-    height: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background: white;
-    opacity: 0.3;
-    margin-top: 15px;
-    margin-left: auto;
-    margin-right: auto;
-}
-  
-.activeCircle {
-    width: 10px;
-    height: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background: #35B234;
-    margin-top: 15px;
-    margin-left: auto;
-    margin-right: auto;
-}
-  

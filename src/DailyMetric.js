@@ -86,7 +86,7 @@ class DailyMetric extends Component {
                 }
 
                 {this.props.state.data.balance <= 0 &&
-                    <h4 className="Red">Losing</h4>
+                    <h4 className="Red">Warning</h4>
                 }
                 
                 <CountUp
