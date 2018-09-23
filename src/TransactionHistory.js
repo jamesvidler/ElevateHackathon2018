@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './TransactionHistory.css'
+import './TransactionHistory.css';
 
 class TransactionHistory extends Component {
     constructor(props) {
@@ -12,7 +12,12 @@ class TransactionHistory extends Component {
     render() {
         const transactionItems = this.props.state.data.transactions.map((t) =>
             <div className="trans">
-               <p className="transText">${t.currencyAmount}</p>
+               <p className="transText">
+                <i class="fas fa-utensils"></i> 
+                    <span className="amountText">
+                        ${ t.currencyAmount}
+                    </span>
+                </p>
             </div>
         );
         return (
