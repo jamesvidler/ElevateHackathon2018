@@ -13,17 +13,25 @@ class TransactionHistory extends Component {
     render() {  
         const transactionItems = this.props.state.data.transactions.map((t) =>
             <div className="trans">
-               <p className="transText">
+             <p className="transText">
                
                
-               
-               <i class="fas fa-money-check-alt"></i>
-
-
-                    <span className="amountText">
-                    {numeral(t.currencyAmount).format('$ 0.00 a')} 
-                    </span>
-                </p>
+               {t.categoryTags[0] === 'Food and Dining' &&
+               <i class="fas fa-utensils"></i>
+               }
+               {t.categoryTags[0] === 'Income' &&
+               <i class="far fa-money-bill-alt"></i>
+               }
+               {t.categoryTags[0] === 'Shopping' &&
+               <i class="fas fa-shopping-bag"></i>
+               }
+               {t.categoryTags[0] === 'Auto and Transport' &&
+               <i class="fas fa-car"></i>
+               }
+               <span className="amountText">
+               {numeral(t.currencyAmount).format('$ 0.00 a')} 
+               </span>
+            </p>
             </div>
         );
         return (
