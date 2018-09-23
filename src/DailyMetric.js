@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './DailyMetric.css';
 import Api  from './Api';
-import CountUp from 'react-countup'
+import CountUp from 'react-countup';
+import CircularProgressbar from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 class DailyMetric extends Component {
     constructor(props) {
@@ -55,13 +57,20 @@ class DailyMetric extends Component {
     }
     
     render() {
-        const test = null;
+        const percentage = 65;
         return (
-            
             <div className="DailyMetric">
-                {this.props.state.data.showIncrease &&
-                <h4 className="Green">+{this.props.state.data.lastIncrease}</h4>
-                }
+                <div className="Bar">
+                <CircularProgressbar
+                percentage={percentage}
+                textforPercentage={null} 
+                strokeWidth={10}
+                styles={{
+                    path: { stroke: `rgba(53, 178, 52, 100)` },
+                  }}
+                />
+                </div>
+                <h4 className="Green">Earning</h4>
                 <CountUp
                     start={this.props.state.data.oldBalance}
                     end={this.props.state.data.balance}
@@ -69,7 +78,7 @@ class DailyMetric extends Component {
                     separator=","
                     decimals={2}
                     decimal="."
-                    prefix="$ "
+                    prefix="$"
                     suffix=""
                     onEnd={() => console.log('Ended! 👏')}
                     onStart={() => console.log('Started! 💨')}
@@ -78,14 +87,13 @@ class DailyMetric extends Component {
                         <h2 className="DaySave" ref={countUpRef}/>
                     )}
                 </CountUp>
+                <hr></hr>
+                <h4 className="saved"><span className="Goal">Goal</span> $342.23</h4>
+
                 {this.props.state.data.showDecrease &&
                     <h4 className="Red">{this.props.state.data.lastDecrease}</h4>
                 }
-                <h4 className="saved">SAVED</h4>
-                {/* <div className="groupC">
-                <div className="circle"></div>
-                <div className="activeCircle"></div>
-                </div> */}
+                
                 <button onClick={this.increaseBalance}>increase balance</button>
                 <button onClick={this.decreaseBalance}>decrease balance</button>
             </div>
