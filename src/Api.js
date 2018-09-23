@@ -38,12 +38,9 @@ function getTransactions(callback) {
   If there are no new transactions, it just returns an empty array
   Make sure to do null checks when calling this function
 */
-function getNewTransactions(transactions, callback) {
-
-  (async () => {
-    await req(options('GET', 'customers/' + initialCustomerId + '/transactions'))
-    .then((resp) => {
-      const newArraySize = resp.result.length;
+function getNewTransactions(transactions, date, callback) {
+  getTransactionsForDay(date, function(resp) {
+    const newArraySize = resp.result.length;
       const currentArraySize = transactions.length;
       if(newArraySize != currentArraySize) {  // This assumes that the user cannot delete past transactions
         var numOfNewTransactions = newArraySize - currentArraySize;
@@ -53,8 +50,7 @@ function getNewTransactions(transactions, callback) {
         }
         callback(newTransactions);
       }
-    }, handleError)
-  })();
+  })
 }
 
 /*
