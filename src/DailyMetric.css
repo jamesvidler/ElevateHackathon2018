@@ -33,7 +33,7 @@ hr {
 }
 .Green {
     color: #77C61F;
-    top: 28%;
+    top: 30%;
     text-align: center;
     position: absolute;
     left: 0; 
@@ -42,17 +42,7 @@ hr {
     margin-right: auto; 
     width: 312px;
 }
-.Red {
-    color: #FF233E;
-    top: 55%;
-    text-align: center;
-    position: absolute;
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
-    margin-right: auto; 
-    width: 312px;
-}
+
 .saved {
     top: 63%;
     text-align: center;
