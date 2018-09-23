@@ -1,11 +1,40 @@
 .DailyMetric {
     width:312px;
     height:390px;
+    background-color: #000;
 }
 
+.Bar {
+    top: 15%;
+    width: 90%;
+    text-align: center;
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+hr {
+    top: 56%;
+    width: 150px;
+    background-color: #979797;
+    height: 0.5px;
+    border: 0;
+    text-align: center;
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.Goal {
+    color: #FFFF00;
+}
 .Green {
-    color: #4CEB63;
-    top: 28%;
+    color: #77C61F;
+    top: 30%;
     text-align: center;
     position: absolute;
     left: 0; 
@@ -14,19 +43,9 @@
     margin-right: auto; 
     width: 312px;
 }
-.Red {
-    color: #FF233E;
-    top: 55%;
-    text-align: center;
-    position: absolute;
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
-    margin-right: auto; 
-    width: 312px;
-}
+
 .saved {
-    top: 65%;
+    top: 63%;
     text-align: center;
     position: absolute;
     left: 0; 
@@ -37,7 +56,7 @@
   }
 
 .DaySave {
-    top: 35%;
+    top: 38%;
     text-align: center;
     position: absolute; 
     left: 0; 

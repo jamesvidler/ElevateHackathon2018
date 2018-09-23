@@ -7,10 +7,12 @@ import DailyMetric from './DailyMetric'
 import SwipeableRoutes from "react-swipeable-routes";
 import AnotherView from './AnotherView'
 import Api from './Api'
+import deepmerge from 'deepmerge'
 
 var defaultValues = {
   customerID:'1528cf03-ff1e-4647-a76e-390b8b32dcb8_9c8b689c-daec-4fe6-836d-07d36f9dbcc9',
   test: 'some val',
+  date: '2018-09-22',
   workSchedule: 
     [
       {
@@ -75,12 +77,22 @@ class App extends Component {
     this.updateState = this.updateState.bind(this);
   }
   componentDidMount = function() {
-    
+    var self = this;
 
-    this.setState(defaultValues)
+    Api.getCustomer(function(customer) {
+      Api.getTransactionsForDay(self.state.date, function(transactions) {
+        self.updateState({
+          data: {
+            transactions: transactions,
+            customer: customer
+          }
+        });   
+      })
+    })
   }
   updateState = function(stateData) {
-    this.setState(stateData);
+    var mergedState = deepmerge(this.state, stateData,);
+    this.setState(mergedState);
   }
   render() {
     return (
@@ -88,13 +100,14 @@ class App extends Component {
         
         <Link to="/">Home</Link>
         <Link to="/anotherview">Another View</Link>
-
-        <main className="MainBox">
-          <SwipeableRoutes>
-            <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
-            <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
-          </SwipeableRoutes>
-        </main>
+        <div class='Enclose'>
+          <main className="MainBox">
+            <SwipeableRoutes>
+              <Route exact path='/' render={(props) => <DailyMetric state={this.state} updateAppState={this.updateState} />}/>
+              <Route exact path='/anotherview' render={(props) => <AnotherView state={this.state} updateAppState={this.updateState} />}/>
+            </SwipeableRoutes>
+          </main>
+        </div>
       </div>
     );
   }
