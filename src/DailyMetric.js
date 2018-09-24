@@ -156,13 +156,13 @@ class DailyMetric extends Component {
                 {this.props.state.data.balance > 0 && !this.wageCounterStarted &&
                     <h4 className="Green">Killing it!</h4>
                 }
-
-                {this.props.state.data.balance <= 0 &&
-                    <h4 className="Red">Warning</h4>
-                }
-
+                
                 {this.props.state.data.balance <= 0 && this.wageCounterStarted &&
                     <h4 className="Red">Earning</h4>
+                }
+
+                {this.props.state.data.balance <= 0 && !this.wageCounterStarted &&
+                    <h4 className="Red">Warning</h4>
                 }
                 
                 <CountUp
